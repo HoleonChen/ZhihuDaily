@@ -6,7 +6,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MainPageNewsItemModel.h"
+#import "MainPageTableViewCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
