@@ -6,5 +6,6 @@ use_frameworks!
 target 'ZhihuDaily' do
   
   pod 'AFNetworking'
-  
+  pod 'SDWebImage'	  
+
 end

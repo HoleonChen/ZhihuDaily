@@ -12,6 +12,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{  //将各个元素添加到Cell中
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:self.topicLabel];
         [self.contentView addSubview:self.hintLabel];
         [self.contentView addSubview:self.prevImageLabel];
@@ -28,7 +29,7 @@
 #pragma mark - Getter //懒加载
 
 - (UILabel *)topicLabel {  //标题懒加载
-    if (self == nil) {
+    if (_topicLabel == nil) {
         _topicLabel = [[UILabel alloc] init];
         _topicLabel.frame = CGRectMake(45, 65, 810, 115);  //位置和大小
         _topicLabel.layer.masksToBounds = YES;  //超出边界限制
@@ -41,7 +42,7 @@
 }
 
 - (UILabel *)hintLabel {  //提示懒加载
-    if (self == nil) {
+    if (_hintLabel == nil) {
         _hintLabel = [[UILabel alloc] init];
         _hintLabel.frame = CGRectMake(45, 205, 800, 40);  //位置和大小
         _hintLabel.layer.masksToBounds = YES;  //超出边界限制
@@ -54,7 +55,7 @@
 }
 
 - (UIImageView *)prevImageLabel {
-    if (self == nil) {
+    if (_prevImageLabel == nil) {
         _prevImageLabel = [[UIImageView alloc] init];
         _prevImageLabel.frame = CGRectMake(905, 45, 218, 218);  //位置和大小
         _prevImageLabel.layer.masksToBounds = YES;  //超出边界限制
