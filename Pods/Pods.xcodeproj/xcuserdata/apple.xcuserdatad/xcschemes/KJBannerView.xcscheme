@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0130B3724283586C0E9D2A112D4F2AA1"
-               BuildableName = "AFNetworking.framework"
-               BlueprintName = "AFNetworking"
+               BlueprintIdentifier = "BF686B1733D9752C1E7E87061E8208E5"
+               BuildableName = "KJBannerView.framework"
+               BlueprintName = "KJBannerView"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

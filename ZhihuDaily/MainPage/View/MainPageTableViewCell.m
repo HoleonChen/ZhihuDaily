@@ -34,7 +34,7 @@
         _topicLabel.frame = CGRectMake(15, 20, 270, 40);  //位置和大小
         _topicLabel.layer.masksToBounds = YES;  //超出边界限制
         _topicLabel.textColor = [UIColor blackColor];  //字体颜色黑色
-        _topicLabel.font = [UIFont systemFontOfSize:16];  //字号18磅
+        _topicLabel.font = [UIFont systemFontOfSize:16];  //字号16磅
         _topicLabel.numberOfLines = 2;  //限制行数2
         _topicLabel.textAlignment = NSTextAlignmentLeft;  //左对齐
     }

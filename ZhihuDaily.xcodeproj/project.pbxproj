@@ -97,6 +97,7 @@
 				187889532D4FBB6F00E70535 /* Frameworks */,
 				187889542D4FBB6F00E70535 /* Resources */,
 				83C1070866D2ADCCEE6067E1 /* [CP] Embed Pods Frameworks */,
+				A2243E1AEA07A64D6C93E38F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -169,6 +170,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZhihuDaily/Pods-ZhihuDaily-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A2243E1AEA07A64D6C93E38F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZhihuDaily/Pods-ZhihuDaily-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZhihuDaily/Pods-ZhihuDaily-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZhihuDaily/Pods-ZhihuDaily-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E94F16CF65FE40F004B3429B /* [CP] Check Pods Manifest.lock */ = {

@@ -1,15 +1,15 @@
 //
-//  MainPageModel.h
+//  MainPageCollectionViewModel.h
 //  ZhihuDaily
 //
-//  Created by Holeon on 2025/2/4.
+//  Created by Holeon on 2025/2/19.
 //
 
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MainPageNewsItemModel : NSObject
+@interface MainPageCollectionViewModel : NSObject
 
 @property (nonatomic, assign) NSInteger newsId;
 

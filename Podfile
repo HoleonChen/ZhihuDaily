@@ -7,5 +7,5 @@ target 'ZhihuDaily' do
   
   pod 'AFNetworking'
   pod 'SDWebImage'
-  
+  pod 'KJBannersView'
 end
