@@ -8,12 +8,16 @@
 #import "MainPageViewController.h"
 #import "AFNetworking.h"
 #import "SDWebImage.h"
+#import "KJBannerHeader.h"
+#import "MainPageBannerViewCell.h"
+#import "MainPageBannerViewModel.h"
+#import "MenuPageViewController.h"
 
-@interface MainPageViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface MainPageViewController ()<UITableViewDataSource, UITableViewDelegate, KJBannerViewDelegate, KJBannerViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray<MainPageNewsItemModel *> *dataArrayForPlainStory;  //数据数组，存储，针对普通新闻
 
-@property (nonatomic, strong) NSMutableArray<MainPageCollectionViewModel *> *dataArrayForTopStory;  //数据数组，存储，针对Banner上的新闻
+@property (nonatomic, strong) NSMutableArray<MainPageBannerViewModel *> *dataArrayForTopStory;  //数据数组，存储，针对Banner上的新闻
 
 @property (nonatomic, strong) UITableView *newsItemTableView;  //新闻流视图
 
@@ -47,10 +51,14 @@
 
 - (KJBannerView *)topNewsBannerView{
     if(!_topNewsBannerView){
-        _topNewsBannerView = [[KJBannerView alloc] init];
+        _topNewsBannerView = [[KJBannerView alloc] initWithFrame:CGRectMake(0, 107, UIScreen.mainScreen.bounds.size.width, 390)];
         _topNewsBannerView.dataSource = self;
         _topNewsBannerView.delegate = self;
+        _topNewsBannerView.autoTime = 3;
         
+        _topNewsBannerView.pageControl.pageType = PageControlStyleSizeDot;
+        _topNewsBannerView.pageControl.displayType = KJPageControlDisplayTypeRight;
+        _topNewsBannerView.pageControl.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0];
     }
     return _topNewsBannerView;
 }
@@ -67,7 +75,7 @@
             [self.newsItemTableView reloadData];
         }
         for (NSDictionary *dic in responseObject[@"top_stories"]){
-            MainPageCollectionViewModel *topItem = [[MainPageCollectionViewModel alloc] initWithDic:dic];
+            MainPageBannerViewModel *topItem = [[MainPageBannerViewModel alloc] initWithDic:dic];
             [self.dataArrayForTopStory addObject:topItem];
             [self.topNewsBannerView reloadData];
         }
@@ -102,7 +110,15 @@
 
 #pragma mark - BannerViewDataSource
 
+- (NSInteger)kj_numberOfItemsInBannerView:(KJBannerView *)banner {
+    return self.dataArrayForTopStory.count;
+}
 
+- (KJBannerViewCell *)kj_bannerView:(KJBannerView *)banner cellForItemAtIndex:(NSInteger)index {
+    MainPageBannerViewModel *dataModelMainPlain = self.dataArrayForTopStory;
+    MainPageBannerViewCell *mainTopCell = [banner dequeueReusableCellWithReuseIdentifier:@"MainPageBannerCell" forIndex:index];
+    return mainTopCell;
+}
 
 #pragma mark - UITableViewDelegate
 
@@ -112,6 +128,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 30;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    MenuPageViewController *menuPageVC = [[MenuPageViewController alloc] init];
+    [self.navigationController pushViewController:menuPageVC animated:YES];
 }
 
 #pragma mark - BannerViewDelegate

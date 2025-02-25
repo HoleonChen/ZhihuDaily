@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MainPageCollectionViewModel : NSObject
+@interface MainPageBannerViewModel : NSObject
 
 @property (nonatomic, assign) NSInteger newsId;
 

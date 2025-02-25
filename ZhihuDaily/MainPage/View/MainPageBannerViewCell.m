@@ -5,9 +5,9 @@
 //  Created by Holeon on 2025/2/19.
 //
 
-#import "MainPageCollectionViewCell.h"
+#import "MainPageBannerViewCell.h"
 
-@implementation MainPageCollectionViewCell
+@implementation MainPageBannerViewCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {

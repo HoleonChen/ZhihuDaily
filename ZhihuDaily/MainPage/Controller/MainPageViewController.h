@@ -8,8 +8,8 @@
 #import <UIKit/UIKit.h>
 #import "MainPageNewsItemModel.h"
 #import "MainPageTableViewCell.h"
-#import "MainPageCollectionViewModel.h"
-#import "MainPageCollectionViewCell.h"
+#import "MainPageBannerViewModel.h"
+#import "MainPageBannerViewCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

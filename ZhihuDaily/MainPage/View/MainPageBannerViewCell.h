@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MainPageCollectionViewCell : KJBannerViewCell
+@interface MainPageBannerViewCell : KJBannerViewCell
 
 @property (nonatomic, strong) UILabel *topicLabel;  //标题
 
