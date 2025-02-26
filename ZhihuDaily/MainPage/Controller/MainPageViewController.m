@@ -21,6 +21,8 @@
 
 @property (nonatomic, strong) UITableView *newsItemTableView;  //新闻流视图
 
+@property (nonatomic, strong) UIScrollView *mainScreenScroll;  //主页面新闻流滑动视图
+
 @property (nonatomic, strong) KJBannerView *topNewsBannerView;  //Banner视图
 
 @end
@@ -32,16 +34,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataArrayForPlainStory = [[NSMutableArray alloc] init];
+    self.dataArrayForTopStory = [[NSMutableArray alloc] init];
     [self getRequest];
-    [self.view addSubview:self.newsItemTableView];
+    [self.mainScreenScroll addSubview:self.topNewsBannerView];
+    [self.mainScreenScroll addSubview:self.newsItemTableView];
+    [self.view addSubview:self.mainScreenScroll];
 }
 
 #pragma mark - Getter //懒加载
 
+- (UIScrollView *)mainScreenScroll{
+    if(!_mainScreenScroll){
+        _mainScreenScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
+        _mainScreenScroll.backgroundColor = [UIColor whiteColor];
+        _mainScreenScroll.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height+20);
+    }
+    return _mainScreenScroll;
+}
+
 - (UITableView *)newsItemTableView{
     if(!_newsItemTableView){
         _newsItemTableView.backgroundColor = [UIColor whiteColor];
-        _newsItemTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 497, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
+        _newsItemTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 390, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
         _newsItemTableView.dataSource = self;
         _newsItemTableView.delegate = self;
         [_newsItemTableView registerClass:MainPageTableViewCell.class forCellReuseIdentifier:@"MainPagePlainCell"];
@@ -51,11 +65,11 @@
 
 - (KJBannerView *)topNewsBannerView{
     if(!_topNewsBannerView){
-        _topNewsBannerView = [[KJBannerView alloc] initWithFrame:CGRectMake(0, 107, UIScreen.mainScreen.bounds.size.width, 390)];
+        _topNewsBannerView = [[KJBannerView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 390)];
         _topNewsBannerView.dataSource = self;
         _topNewsBannerView.delegate = self;
         _topNewsBannerView.autoTime = 3;
-        
+        [_topNewsBannerView registerClass:[MainPageBannerViewCell class]forCellWithReuseIdentifier:@"MainPageBannerCell"];
         _topNewsBannerView.pageControl.pageType = PageControlStyleSizeDot;
         _topNewsBannerView.pageControl.displayType = KJPageControlDisplayTypeRight;
         _topNewsBannerView.pageControl.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0];
@@ -115,8 +129,16 @@
 }
 
 - (KJBannerViewCell *)kj_bannerView:(KJBannerView *)banner cellForItemAtIndex:(NSInteger)index {
-    MainPageBannerViewModel *dataModelMainPlain = self.dataArrayForTopStory;
+    MainPageBannerViewModel *dataModelMainTop = self.dataArrayForTopStory[index];
     MainPageBannerViewCell *mainTopCell = [banner dequeueReusableCellWithReuseIdentifier:@"MainPageBannerCell" forIndex:index];
+    if(mainTopCell == nil){
+        mainTopCell = [[MainPageBannerViewCell alloc] init];
+    }
+    mainTopCell.topicLabel.text = dataModelMainTop.newsTitle;
+    mainTopCell.hintLabel.text = dataModelMainTop.hint;
+    NSString *imageUrlStr = dataModelMainTop.thumbnailUrl.firstObject;
+    NSURL *mainTopThumbnailUrl = [imageUrlStr stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];  //再将NSString类型的URL转化为NSURL类型
+    [mainTopCell.prevImageLabel sd_setImageWithURL: [NSURL URLWithString:mainTopThumbnailUrl]];  //通过相应的URL获取对应的新闻图片
     return mainTopCell;
 }
 
@@ -133,6 +155,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     MenuPageViewController *menuPageVC = [[MenuPageViewController alloc] init];
     [self.navigationController pushViewController:menuPageVC animated:YES];
+    NSLog(@"Click Successful!");
 }
 
 #pragma mark - BannerViewDelegate

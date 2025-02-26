@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UILabel *hintLabel;  //提示词
 
+@property (nonatomic, strong) UIImageView *prevImageLabel;  //背景图
+
 @end
 
 NS_ASSUME_NONNULL_END

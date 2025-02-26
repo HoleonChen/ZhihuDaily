@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import "MainPage/Controller/MainPageViewController.h"
+#import "MenuPage/Controller/MenuPageViewController.h"
 
 @interface AppDelegate ()
 
