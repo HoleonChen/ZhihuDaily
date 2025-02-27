@@ -13,7 +13,7 @@
     self.newsId = dic[@"id"];
     self.newsTitle = dic[@"title"];
     self.newsUrl = dic[@"url"];
-    self.thumbnailUrl = dic[@"images"];
+    self.thumbnailUrl = dic[@"image"];
     self.hint = dic[@"hint"];
     return self;
 }

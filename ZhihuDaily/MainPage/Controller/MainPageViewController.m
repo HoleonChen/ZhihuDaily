@@ -47,7 +47,7 @@
     if(!_mainScreenScroll){
         _mainScreenScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
         _mainScreenScroll.backgroundColor = [UIColor whiteColor];
-        _mainScreenScroll.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height+20);
+        _mainScreenScroll.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height+1);
     }
     return _mainScreenScroll;
 }
@@ -68,10 +68,8 @@
         _topNewsBannerView = [[KJBannerView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 390)];
         _topNewsBannerView.dataSource = self;
         _topNewsBannerView.delegate = self;
-        _topNewsBannerView.autoTime = 3;
+        _topNewsBannerView.autoTime = 5;
         [_topNewsBannerView registerClass:[MainPageBannerViewCell class]forCellWithReuseIdentifier:@"MainPageBannerCell"];
-        _topNewsBannerView.pageControl.pageType = PageControlStyleSizeDot;
-        _topNewsBannerView.pageControl.displayType = KJPageControlDisplayTypeRight;
         _topNewsBannerView.pageControl.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0];
     }
     return _topNewsBannerView;
@@ -136,7 +134,8 @@
     }
     mainTopCell.topicLabel.text = dataModelMainTop.newsTitle;
     mainTopCell.hintLabel.text = dataModelMainTop.hint;
-    NSString *imageUrlStr = dataModelMainTop.thumbnailUrl.firstObject;
+    NSString *imageUrlStr = dataModelMainTop.thumbnailUrl;
+    NSLog(@"%@",imageUrlStr);
     NSURL *mainTopThumbnailUrl = [imageUrlStr stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];  //再将NSString类型的URL转化为NSURL类型
     [mainTopCell.prevImageLabel sd_setImageWithURL: [NSURL URLWithString:mainTopThumbnailUrl]];  //通过相应的URL获取对应的新闻图片
     return mainTopCell;
