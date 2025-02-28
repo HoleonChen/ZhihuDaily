@@ -16,7 +16,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.userAvatar];
+    [self.view addSubview:self.userName];
+    [self.view addSubview:self.menuTable];
+    [self.view addSubview:self.copyright];
 }
 
 #pragma mark - Lazy
@@ -58,6 +62,19 @@
     return _menuTable;
 }
 
+- (UILabel *)copyright{
+    if(_copyright == nil){
+        _copyright = [[UILabel alloc] initWithFrame:CGRectMake(0, UIScreen.mainScreen.bounds.size.height-3, UIScreen.mainScreen.bounds.size.width, 3)];
+        _copyright.backgroundColor = [UIColor whiteColor];
+        _copyright.text = @"ZhihuDaily Duplicated By Holeon.";
+        _copyright.textColor = [UIColor lightGrayColor];
+        _copyright.font = [UIFont systemFontOfSize:3];
+        _copyright.textAlignment = NSTextAlignmentCenter;
+        _copyright.numberOfLines = 1;
+        _copyright.layer.masksToBounds = YES;
+    }
+    return _copyright;
+}
 
 #pragma mark - TableViewDataSource
 
@@ -72,7 +89,6 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath { 
     MenuTableViewCell *menuCell = [tableView dequeueReusableCellWithIdentifier:@"MenuTableCell"];
     menuCell.topicLabel.text = @"我的收藏";
-    menuCell.arrowImage.image = @"DefaultAvatar";
     return menuCell;
 }
 

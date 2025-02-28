@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MenuTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) UILabel *topicLabel;
-@property (nonatomic, strong) UIImageView *arrowImage;
 
 @end
 

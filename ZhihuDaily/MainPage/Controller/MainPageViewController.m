@@ -12,8 +12,15 @@
 #import "MainPageBannerViewCell.h"
 #import "MainPageBannerViewModel.h"
 #import "MenuPageViewController.h"
+#import "NewsPageViewController.h"
 
 @interface MainPageViewController ()<UITableViewDataSource, UITableViewDelegate, KJBannerViewDelegate, KJBannerViewDataSource>
+
+@property (nonatomic, strong) NSURL *topNewsUrl;
+
+@property (nonatomic, strong) NSURL *plainNewsUrl;
+
+@property (nonatomic, strong) UICollectionView *topView;
 
 @property (nonatomic, strong) NSMutableArray<MainPageNewsItemModel *> *dataArrayForPlainStory;  //数据数组，存储，针对普通新闻
 
@@ -35,6 +42,8 @@
     [super viewDidLoad];
     self.dataArrayForPlainStory = [[NSMutableArray alloc] init];
     self.dataArrayForTopStory = [[NSMutableArray alloc] init];
+    self.topNewsUrl = [[NSURL alloc] init];
+    self.plainNewsUrl = [[NSURL alloc] init];
     [self getRequest];
     [self.mainScreenScroll addSubview:self.topNewsBannerView];
     [self.mainScreenScroll addSubview:self.newsItemTableView];
@@ -45,7 +54,7 @@
 
 - (UIScrollView *)mainScreenScroll{
     if(!_mainScreenScroll){
-        _mainScreenScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
+        _mainScreenScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 120, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
         _mainScreenScroll.backgroundColor = [UIColor whiteColor];
         _mainScreenScroll.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height+1);
     }
@@ -112,6 +121,8 @@
     if (mainPlainCell == nil) {
         mainPlainCell = [[MainPageTableViewCell alloc] init];
     }
+    NSString *mainPlainNewsUrlStr = dataModelMainPlain.newsUrl;
+    self.plainNewsUrl = [mainPlainNewsUrlStr stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];
     mainPlainCell.topicLabel.text = dataModelMainPlain.newsTitle;  //标题
     mainPlainCell.hintLabel.text = dataModelMainPlain.hint;  //提示词
     NSString *mainPlainThumbnailUrlString = dataModelMainPlain.thumbnailUrl.firstObject;  //将从API获取到的数组URL转化为NSString类型
@@ -132,10 +143,11 @@
     if(mainTopCell == nil){
         mainTopCell = [[MainPageBannerViewCell alloc] init];
     }
+    NSString *topNewsUrlStr = dataModelMainTop.newsUrl;
+    self.topNewsUrl = [topNewsUrlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     mainTopCell.topicLabel.text = dataModelMainTop.newsTitle;
     mainTopCell.hintLabel.text = dataModelMainTop.hint;
     NSString *imageUrlStr = dataModelMainTop.thumbnailUrl;
-    NSLog(@"%@",imageUrlStr);
     NSURL *mainTopThumbnailUrl = [imageUrlStr stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];  //再将NSString类型的URL转化为NSURL类型
     [mainTopCell.prevImageLabel sd_setImageWithURL: [NSURL URLWithString:mainTopThumbnailUrl]];  //通过相应的URL获取对应的新闻图片
     return mainTopCell;
@@ -152,12 +164,19 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    MenuPageViewController *menuPageVC = [[MenuPageViewController alloc] init];
-    [self.navigationController pushViewController:menuPageVC animated:YES];
-    NSLog(@"Click Successful!");
+    NewsPageViewController *newsPage = [[NewsPageViewController alloc] init];
+    newsPage.newsUrl = self.plainNewsUrl;
+    [self.navigationController pushViewController:newsPage animated:YES];
+    NSLog(@"Clicked!");
 }
 
 #pragma mark - BannerViewDelegate
+
+- (void)kj_bannerView:(KJBannerView *)banner didSelectItemAtIndex:(NSInteger)index{
+    NewsPageViewController *newsPage = [[NewsPageViewController alloc] init];
+    newsPage.newsUrl = self.topNewsUrl;
+    [self.navigationController pushViewController:newsPage animated:YES];
+}
 
 
 @end

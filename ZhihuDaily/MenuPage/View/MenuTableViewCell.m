@@ -40,13 +40,4 @@
     return _topicLabel;
 }
 
-- (UIImageView *)arrowImage{
-    if(_arrowImage == nil){
-        _arrowImage = [[UIImageView alloc] initWithFrame:CGRectMake(357, 20, 20, 20)];
-        _arrowImage.backgroundColor = [UIColor blackColor];
-        _arrowImage.layer.masksToBounds = YES;
-        
-    }
-}
-
 @end
