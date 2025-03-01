@@ -16,6 +16,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.topToolBar];
     [self.view addSubview:self.userAvatar];
     [self.view addSubview:self.userName];
     [self.view addSubview:self.menuTable];
@@ -23,6 +24,18 @@
 }
 
 #pragma mark - Lazy
+
+- (UIToolbar *)topToolBar{
+    if(_topToolBar == nil){
+        _topToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 50, UIScreen.mainScreen.bounds.size.width, 50)];
+        _topToolBar.backgroundColor = [UIColor whiteColor];
+        _topToolBar.translucent = NO;
+        _topToolBar.barTintColor = [UIColor whiteColor];
+        UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemClose target:self action:@selector(popPage)];
+        _topToolBar.items = @[backBtn];
+    }
+    return _topToolBar;
+}
 
 - (UIImageView *)userAvatar{
     if(_userAvatar == nil){
@@ -99,6 +112,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60;
+}
+
+#pragma mark - BarItemActions
+
+- (void)popPage{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

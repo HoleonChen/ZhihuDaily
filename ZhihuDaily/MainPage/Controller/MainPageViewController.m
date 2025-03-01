@@ -265,12 +265,12 @@
     if(mainTopCell == nil){
         mainTopCell = [[MainPageBannerViewCell alloc] init];
     }
-    self.topNewsUrl = [NSURL URLWithString:dataModelMainTop.newsUrl];
     mainTopCell.topicLabel.text = dataModelMainTop.newsTitle;
     mainTopCell.hintLabel.text = dataModelMainTop.hint;
     NSString *imageUrlStr = dataModelMainTop.thumbnailUrl;
     NSURL *mainTopThumbnailUrl = [imageUrlStr stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];  //再将NSString类型的URL转化为NSURL类型
     [mainTopCell.prevImageLabel sd_setImageWithURL: [NSURL URLWithString:mainTopThumbnailUrl]];  //通过相应的URL获取对应的新闻图片
+    self.topNewsUrl = [NSURL URLWithString:dataModelMainTop.newsUrl];
     return mainTopCell;
 }
 
