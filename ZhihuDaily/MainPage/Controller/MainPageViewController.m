@@ -16,10 +16,6 @@
 
 @interface MainPageViewController ()<UITableViewDataSource, UITableViewDelegate, KJBannerViewDelegate, KJBannerViewDataSource>
 
-@property (nonatomic, strong) NSURL *topNewsUrl;
-
-@property (nonatomic, strong) NSURL *plainNewsUrl;
-
 @property (nonatomic, strong) UIView *topView;
 
 @property (nonatomic, strong) UILabel *day;
@@ -48,8 +44,6 @@
     //Necessary Datas Init
     self.dataArrayForPlainStory = [[NSMutableArray alloc] init];
     self.dataArrayForTopStory = [[NSMutableArray alloc] init];
-    self.topNewsUrl = [[NSURL alloc] init];
-    self.plainNewsUrl = [[NSURL alloc] init];
     [self getRequest];
     //topView Init
     [self.view addSubview:self.topView];
@@ -244,7 +238,6 @@
     if (mainPlainCell == nil) {
         mainPlainCell = [[MainPageTableViewCell alloc] init];
     }
-    self.plainNewsUrl = [NSURL URLWithString:dataModelMainPlain.newsUrl];
     mainPlainCell.topicLabel.text = dataModelMainPlain.newsTitle;  //标题
     mainPlainCell.hintLabel.text = dataModelMainPlain.hint;  //提示词
     NSString *mainPlainThumbnailUrlString = dataModelMainPlain.thumbnailUrl.firstObject;  //将从API获取到的数组URL转化为NSString类型
@@ -270,7 +263,6 @@
     NSString *imageUrlStr = dataModelMainTop.thumbnailUrl;
     NSURL *mainTopThumbnailUrl = [imageUrlStr stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];  //再将NSString类型的URL转化为NSURL类型
     [mainTopCell.prevImageLabel sd_setImageWithURL: [NSURL URLWithString:mainTopThumbnailUrl]];  //通过相应的URL获取对应的新闻图片
-    self.topNewsUrl = [NSURL URLWithString:dataModelMainTop.newsUrl];
     return mainTopCell;
 }
 
@@ -286,7 +278,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NewsPageViewController *newsPage = [[NewsPageViewController alloc] init];
-    newsPage.newsUrl = self.plainNewsUrl;
+    MainPageNewsItemModel *newsModel = self.dataArrayForPlainStory[indexPath.row];
+    newsPage.newsUrl = [NSURL URLWithString:newsModel.newsUrl];
     [self.navigationController pushViewController:newsPage animated:YES];
     NSLog(@"Clicked!");
 }
@@ -295,7 +288,8 @@
 
 - (void)kj_bannerView:(KJBannerView *)banner didSelectItemAtIndex:(NSInteger)index{
     NewsPageViewController *newsPage = [[NewsPageViewController alloc] init];
-    newsPage.newsUrl = self.topNewsUrl;
+    MainPageBannerViewModel *newsModel = self.dataArrayForTopStory[index];
+    newsPage.newsUrl = [NSURL URLWithString:newsModel.newsUrl];
     [self.navigationController pushViewController:newsPage animated:YES];
 }
 
