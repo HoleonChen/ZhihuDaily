@@ -21,7 +21,9 @@
     self.window = [[UIWindow alloc] init];
     self.window.backgroundColor = [UIColor whiteColor];
     MainPageViewController *homeVC = [[MainPageViewController alloc] init];
-    self.window.rootViewController = homeVC;
+    UINavigationController *naviVC = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    naviVC.navigationBarHidden = YES;
+    self.window.rootViewController = naviVC;
     [self.window makeKeyAndVisible];
     return YES;
 }

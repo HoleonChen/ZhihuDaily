@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *newsTitle;
 
-@property (nonatomic, strong) NSArray *newsUrl;
+@property (nonatomic, strong) NSString *newsUrl;
 
 @property (nonatomic, strong) NSArray *thumbnailUrl;
 

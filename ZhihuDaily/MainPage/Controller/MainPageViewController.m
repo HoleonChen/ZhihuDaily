@@ -20,7 +20,12 @@
 
 @property (nonatomic, strong) NSURL *plainNewsUrl;
 
-@property (nonatomic, strong) UICollectionView *topView;
+@property (nonatomic, strong) UIView *topView;
+
+@property (nonatomic, strong) UILabel *day;
+@property (nonatomic, strong) UILabel *month;
+@property (nonatomic, strong) UIImageView *avatar;
+@property (nonatomic, strong) UILabel *topic;
 
 @property (nonatomic, strong) NSMutableArray<MainPageNewsItemModel *> *dataArrayForPlainStory;  //数据数组，存储，针对普通新闻
 
@@ -40,21 +45,139 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //Necessary Datas Init
     self.dataArrayForPlainStory = [[NSMutableArray alloc] init];
     self.dataArrayForTopStory = [[NSMutableArray alloc] init];
     self.topNewsUrl = [[NSURL alloc] init];
     self.plainNewsUrl = [[NSURL alloc] init];
     [self getRequest];
+    //topView Init
+    [self.view addSubview:self.topView];
+    [self.topView addSubview:self.month];
+    [self.topView addSubview:self.day];
+    [self.topView addSubview:self.topic];
+    [self.topView addSubview:self.avatar];
+    //scrollView Init
+    [self.view addSubview:self.mainScreenScroll];
     [self.mainScreenScroll addSubview:self.topNewsBannerView];
     [self.mainScreenScroll addSubview:self.newsItemTableView];
-    [self.view addSubview:self.mainScreenScroll];
+    
 }
+
 
 #pragma mark - Getter //懒加载
 
+- (UIView *)topView{
+    if(_topView == nil){
+        _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, UIScreen.mainScreen.bounds.size.width, 60)];
+        _topView.backgroundColor = [UIColor whiteColor];
+    }
+    return _topView;
+}
+
+- (UILabel *)month{
+    if(_month == nil){
+        _month = [[UILabel alloc] initWithFrame:CGRectMake(16, 39, 32, 12)];
+        _month.backgroundColor = [UIColor whiteColor];
+        NSDate *currentDate = [NSDate date];
+        NSCalendar *calendar = [NSCalendar  currentCalendar];
+        unsigned int unitFlags = NSMonthCalendarUnit;
+        NSDateComponents *d = [calendar components:unitFlags fromDate:currentDate];
+        int monthNum = [d month];
+        NSString *monthStr;
+        switch (monthNum) {
+            case 1:
+                monthStr = @"一月";
+                break;
+            case 2:
+                monthStr = @"二月";
+                break;
+            case 3:
+                monthStr = @"三月";
+                break;
+            case 4:
+                monthStr = @"四月";
+                break;
+            case 5:
+                monthStr = @"五月";
+                break;
+            case 6:
+                monthStr = @"六月";
+                break;
+            case 7:
+                monthStr = @"七月";
+                break;
+            case 8:
+                monthStr = @"八月";
+                break;
+            case 9:
+                monthStr = @"九月";
+                break;
+            case 10:
+                monthStr = @"十月";
+                break;
+            case 11:
+                monthStr = @"十一月";
+                break;
+            case 12:
+                monthStr = @"十二月";
+                break;
+        }
+        _month.text = monthStr;
+        _month.font = [UIFont systemFontOfSize:12 weight:bold];
+        _month.textAlignment = NSTextAlignmentCenter;
+        _month.textColor = [UIColor blackColor];
+    }
+    return _month;
+}
+
+- (UILabel *)day{
+    if(_day == nil){
+        _day = [[UILabel alloc] initWithFrame:CGRectMake(17, 14, 30, 20)];
+        _day.backgroundColor = [UIColor whiteColor];
+        NSDate *currentDate = [NSDate date];
+        NSCalendar *calendar = [NSCalendar  currentCalendar];
+        unsigned int unitFlags = NSDayCalendarUnit;
+        NSDateComponents *d = [calendar components:unitFlags fromDate:currentDate];
+        NSInteger *dayNum = [d day];
+        NSString *dayStr = [[NSNumber numberWithInteger:dayNum] stringValue];
+        _day.text = dayStr;
+        _day.font = [UIFont systemFontOfSize:20];
+        _day.textAlignment = NSTextAlignmentCenter;
+        _day.textColor = [UIColor blackColor];
+    }
+    return _day;
+}
+
+- (UILabel *)topic{
+    if(_topic == nil){
+        _topic = [[UILabel alloc] initWithFrame:CGRectMake(80, 17, 100, 25)];
+        _topic.backgroundColor = [UIColor whiteColor];
+        _topic.text = @"知乎日报";
+        _topic.font = [UIFont systemFontOfSize:25];
+        _topic.textAlignment = NSTextAlignmentLeft;
+        _topic.textColor = [UIColor blackColor];
+    }
+    return _topic;
+}
+
+- (UIImageView *)avatar{
+    if(_avatar == nil){
+        _avatar = [[UIImageView alloc] initWithFrame:CGRectMake(340, 13, 34, 34)];
+        _avatar.backgroundColor = [UIColor whiteColor];
+        _avatar.image = [UIImage imageNamed:@"DefaultAvatar.jpeg"];
+        _avatar.layer.cornerRadius = 17;
+        _avatar.layer.masksToBounds = YES;
+        _avatar.userInteractionEnabled = YES;
+        UITapGestureRecognizer *avatarTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(choseImage:)];
+        [_avatar addGestureRecognizer:avatarTap];
+    }
+    return _avatar;
+}
+
 - (UIScrollView *)mainScreenScroll{
     if(!_mainScreenScroll){
-        _mainScreenScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 120, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
+        _mainScreenScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 110, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
         _mainScreenScroll.backgroundColor = [UIColor whiteColor];
         _mainScreenScroll.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height+1);
     }
@@ -121,8 +244,7 @@
     if (mainPlainCell == nil) {
         mainPlainCell = [[MainPageTableViewCell alloc] init];
     }
-    NSString *mainPlainNewsUrlStr = dataModelMainPlain.newsUrl;
-    self.plainNewsUrl = [mainPlainNewsUrlStr stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];
+    self.plainNewsUrl = [NSURL URLWithString:dataModelMainPlain.newsUrl];
     mainPlainCell.topicLabel.text = dataModelMainPlain.newsTitle;  //标题
     mainPlainCell.hintLabel.text = dataModelMainPlain.hint;  //提示词
     NSString *mainPlainThumbnailUrlString = dataModelMainPlain.thumbnailUrl.firstObject;  //将从API获取到的数组URL转化为NSString类型
@@ -143,8 +265,7 @@
     if(mainTopCell == nil){
         mainTopCell = [[MainPageBannerViewCell alloc] init];
     }
-    NSString *topNewsUrlStr = dataModelMainTop.newsUrl;
-    self.topNewsUrl = [topNewsUrlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    self.topNewsUrl = [NSURL URLWithString:dataModelMainTop.newsUrl];
     mainTopCell.topicLabel.text = dataModelMainTop.newsTitle;
     mainTopCell.hintLabel.text = dataModelMainTop.hint;
     NSString *imageUrlStr = dataModelMainTop.thumbnailUrl;
@@ -178,5 +299,11 @@
     [self.navigationController pushViewController:newsPage animated:YES];
 }
 
+#pragma mark - AvatarClickAction
+
+-(void)choseImage:(UITapGestureRecognizer*)sender{
+    MenuPageViewController *menuPage = [[MenuPageViewController alloc] init];
+    [self.navigationController pushViewController:menuPage animated:YES];
+}
 
 @end

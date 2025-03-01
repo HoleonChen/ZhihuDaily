@@ -6,7 +6,6 @@
 //
 
 #import "MenuPageViewController.h"
-#import "MenuTableViewCell.h"
 
 @interface MenuPageViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -27,10 +26,9 @@
 
 - (UIImageView *)userAvatar{
     if(_userAvatar == nil){
-        _userAvatar = [[UIImageView alloc] initWithFrame:CGRectMake((UIScreen.mainScreen.bounds.size.width/2)-40, 30, 80, 80 )];
+        _userAvatar = [[UIImageView alloc] initWithFrame:CGRectMake((UIScreen.mainScreen.bounds.size.width/2)-40, 100, 80, 80 )];
         _userAvatar.backgroundColor = [UIColor whiteColor];
-        UIImage *avatarImage = [UIImage imageNamed:@"DefaultImage.jpeg"];
-        _userAvatar.image = avatarImage;
+        _userAvatar.image = [UIImage imageNamed:@"DefaultAvatar.jpeg"];
         _userAvatar.contentMode = UIViewContentModeScaleAspectFit;
         _userAvatar.layer.cornerRadius = 40;
         _userAvatar.layer.masksToBounds = YES;
@@ -57,18 +55,18 @@
         _menuTable.backgroundColor = [UIColor whiteColor];
         _menuTable.delegate = self;
         _menuTable.dataSource = self;
-        [_menuTable registerClass:MenuTableViewCell.class forCellReuseIdentifier:@"MenuTableCell"];
+        [_menuTable registerClass:UITableViewCell.class forCellReuseIdentifier:@"MenuTableCell"];
     }
     return _menuTable;
 }
 
 - (UILabel *)copyright{
     if(_copyright == nil){
-        _copyright = [[UILabel alloc] initWithFrame:CGRectMake(0, UIScreen.mainScreen.bounds.size.height-3, UIScreen.mainScreen.bounds.size.width, 3)];
+        _copyright = [[UILabel alloc] initWithFrame:CGRectMake(0, UIScreen.mainScreen.bounds.size.height-30, UIScreen.mainScreen.bounds.size.width, 10)];
         _copyright.backgroundColor = [UIColor whiteColor];
         _copyright.text = @"ZhihuDaily Duplicated By Holeon.";
         _copyright.textColor = [UIColor lightGrayColor];
-        _copyright.font = [UIFont systemFontOfSize:3];
+        _copyright.font = [UIFont systemFontOfSize:10];
         _copyright.textAlignment = NSTextAlignmentCenter;
         _copyright.numberOfLines = 1;
         _copyright.layer.masksToBounds = YES;
@@ -87,15 +85,20 @@
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath { 
-    MenuTableViewCell *menuCell = [tableView dequeueReusableCellWithIdentifier:@"MenuTableCell"];
-    menuCell.topicLabel.text = @"我的收藏";
+    UITableViewCell *menuCell = [tableView dequeueReusableCellWithIdentifier:@"MenuTableCell"];
+    if(menuCell == nil){
+        menuCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MenuTableCell"];
+    }
+    menuCell.textLabel.text = @"我的收藏";
+    menuCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return menuCell;
 }
 
 
-
-
 #pragma mark - TableViewDelegate
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60;
+}
 
 @end
