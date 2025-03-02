@@ -260,7 +260,7 @@
     }
     mainTopCell.topicLabel.text = dataModelMainTop.newsTitle;
     mainTopCell.hintLabel.text = dataModelMainTop.hint;
-    NSString *imageUrlStr = dataModelMainTop.thumbnailUrl; //我知道这里警告了，这里应该有一个.firstObject，但加上之后会导致整个程序崩溃，咱也不知道是为什么，故此程序依靠这个bug运行，请勿改动。
+    NSString *imageUrlStr = dataModelMainTop.thumbnailUrl; 
     NSURL *mainTopThumbnailUrl = [NSURL URLWithString:imageUrlStr];  //再将NSString类型的URL转化为NSURL类型
     [mainTopCell.prevImageLabel sd_setImageWithURL:mainTopThumbnailUrl];  //通过相应的URL获取对应的新闻图片
     return mainTopCell;
@@ -280,6 +280,9 @@
     NewsPageViewController *newsPage = [[NewsPageViewController alloc] init];
     MainPageNewsItemModel *newsModel = self.dataArrayForPlainStory[indexPath.row];
     newsPage.newsUrl = [NSURL URLWithString:newsModel.newsUrl];
+    newsPage.newsId = newsModel.newsId;
+    newsPage.newsTitle = newsModel.newsTitle;
+    newsPage.thumbnailUrl = newsModel.thumbnailUrl.firstObject;
     [self.navigationController pushViewController:newsPage animated:YES];
 }
 
@@ -289,6 +292,9 @@
     NewsPageViewController *newsPage = [[NewsPageViewController alloc] init];
     MainPageBannerViewModel *newsModel = self.dataArrayForTopStory[index];
     newsPage.newsUrl = [NSURL URLWithString:newsModel.newsUrl];
+    newsPage.newsId = newsModel.newsId;
+    newsPage.newsTitle = newsModel.newsTitle;
+    newsPage.thumbnailUrl = newsModel.thumbnailUrl;
     [self.navigationController pushViewController:newsPage animated:YES];
 }
 

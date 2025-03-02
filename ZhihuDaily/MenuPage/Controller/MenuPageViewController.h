@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong)UIView *topToolBar;
 @property (nonatomic, strong)UIImageView *userAvatar;
 @property (nonatomic, strong)UILabel *userName;
-@property (nonatomic, strong)UITableView *menuTable;
 @property (nonatomic, strong)UILabel *copyright;
 @property (nonatomic, strong)UIImageView *backBtn;
 

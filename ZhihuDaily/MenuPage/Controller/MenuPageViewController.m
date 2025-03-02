@@ -6,9 +6,8 @@
 //
 
 #import "MenuPageViewController.h"
-#include "StarPageViewcontroller.h"
 
-@interface MenuPageViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface MenuPageViewController ()
 
 @end
 
@@ -20,7 +19,6 @@
     [self.view addSubview:self.topToolBar];
     [self.view addSubview:self.userAvatar];
     [self.view addSubview:self.userName];
-    [self.view addSubview:self.menuTable];
     [self.view addSubview:self.copyright];
     [self.topToolBar addSubview:self.backBtn];
 }
@@ -74,17 +72,6 @@
     return _userName;
 }
 
-- (UITableView *)menuTable{
-    if(_menuTable == nil){
-        _menuTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 250, UIScreen.mainScreen.bounds.size.width, 60)];
-        _menuTable.backgroundColor = [UIColor whiteColor];
-        _menuTable.delegate = self;
-        _menuTable.dataSource = self;
-        [_menuTable registerClass:UITableViewCell.class forCellReuseIdentifier:@"MenuTableCell"];
-    }
-    return _menuTable;
-}
-
 - (UILabel *)copyright{
     if(_copyright == nil){
         _copyright = [[UILabel alloc] initWithFrame:CGRectMake(0, UIScreen.mainScreen.bounds.size.height-30, UIScreen.mainScreen.bounds.size.width, 10)];
@@ -97,38 +84,6 @@
         _copyright.layer.masksToBounds = YES;
     }
     return _copyright;
-}
-
-#pragma mark - TableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
-}
-
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath { 
-    UITableViewCell *menuCell = [tableView dequeueReusableCellWithIdentifier:@"MenuTableCell"];
-    if(menuCell == nil){
-        menuCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MenuTableCell"];
-    }
-    menuCell.textLabel.text = @"我的收藏";
-    menuCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    return menuCell;
-}
-
-
-#pragma mark - TableViewDelegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    StarPageViewController *starVC = [[StarPageViewController alloc] init];
-    [self.navigationController pushViewController:starVC animated:YES];
 }
 
 #pragma mark - BarItemActions
