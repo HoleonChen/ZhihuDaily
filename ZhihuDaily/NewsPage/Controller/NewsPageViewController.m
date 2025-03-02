@@ -34,7 +34,7 @@
 
 - (WKWebView *)newsView{
     if(_newsView == nil){
-        _newsView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 50, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height-130)];
+        _newsView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height-80)];
         _newsView.UIDelegate = self;
         _newsView.navigationDelegate = self;
         _newsView.allowsBackForwardNavigationGestures = NO;
@@ -48,8 +48,7 @@
 - (UIView *)bottomToolBar{
     if(_bottomToolBar == nil){
         _bottomToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, UIScreen.mainScreen.bounds.size.height-80, UIScreen.mainScreen.bounds.size.width, 80)];
-        _bottomToolBar.backgroundColor = [UIColor whiteColor];
-        CALayer *lineLayer = [CALayer layer];
+        _bottomToolBar.backgroundColor = [UIColor lightTextColor];
     }
     return _bottomToolBar;
 }

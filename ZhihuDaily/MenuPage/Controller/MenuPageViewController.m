@@ -6,6 +6,7 @@
 //
 
 #import "MenuPageViewController.h"
+#include "StarPageViewcontroller.h"
 
 @interface MenuPageViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -21,18 +22,29 @@
     [self.view addSubview:self.userName];
     [self.view addSubview:self.menuTable];
     [self.view addSubview:self.copyright];
+    [self.topToolBar addSubview:self.backBtn];
 }
 
 #pragma mark - Lazy
 
-- (UIToolbar *)topToolBar{
+- (UIImageView *)backBtn{
+    if(_backBtn == nil){
+        _backBtn = [[UIImageView alloc] initWithFrame:CGRectMake(30, 15, 35, 35)];
+        UIImage *backBtnImage = [UIImage imageNamed:@"famicons_chevron-back-outline.png"];
+        _backBtn.image = backBtnImage;
+        _backBtn.layer.masksToBounds = YES;
+        _backBtn.userInteractionEnabled = YES;
+        UITapGestureRecognizer *backTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(popPage)];
+        [_backBtn addGestureRecognizer:backTap];
+    }
+    return _backBtn;
+}
+
+
+- (UIView *)topToolBar{
     if(_topToolBar == nil){
-        _topToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 50, UIScreen.mainScreen.bounds.size.width, 50)];
+        _topToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, 50, UIScreen.mainScreen.bounds.size.width, 50)];
         _topToolBar.backgroundColor = [UIColor whiteColor];
-        _topToolBar.translucent = NO;
-        _topToolBar.barTintColor = [UIColor whiteColor];
-        UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemClose target:self action:@selector(popPage)];
-        _topToolBar.items = @[backBtn];
     }
     return _topToolBar;
 }
@@ -112,6 +124,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    StarPageViewController *starVC = [[StarPageViewController alloc] init];
+    [self.navigationController pushViewController:starVC animated:YES];
 }
 
 #pragma mark - BarItemActions

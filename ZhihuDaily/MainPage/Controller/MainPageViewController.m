@@ -171,9 +171,9 @@
 
 - (UIScrollView *)mainScreenScroll{
     if(!_mainScreenScroll){
-        _mainScreenScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 110, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
+        _mainScreenScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 110, UIScreen.mainScreen.bounds.size.width,UIScreen.mainScreen.bounds.size.height )];
         _mainScreenScroll.backgroundColor = [UIColor whiteColor];
-        _mainScreenScroll.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height+1);
+        _mainScreenScroll.contentSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, self.topNewsBannerView.bounds.size.height+self.newsItemTableView.bounds.size.height);
     }
     return _mainScreenScroll;
 }
@@ -241,8 +241,8 @@
     mainPlainCell.topicLabel.text = dataModelMainPlain.newsTitle;  //标题
     mainPlainCell.hintLabel.text = dataModelMainPlain.hint;  //提示词
     NSString *mainPlainThumbnailUrlString = dataModelMainPlain.thumbnailUrl.firstObject;  //将从API获取到的数组URL转化为NSString类型
-    NSURL *mainPlainThumbnailUrl = [mainPlainThumbnailUrlString stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];  //再将NSString类型的URL转化为NSURL类型
-    [mainPlainCell.prevImageLabel sd_setImageWithURL: [NSURL URLWithString:mainPlainThumbnailUrl]];  //通过相应的URL获取对应的新闻图片
+    NSURL *mainPlainThumbnailUrl = [NSURL URLWithString:mainPlainThumbnailUrlString];  //再将NSString类型的URL转化为NSURL类型
+    [mainPlainCell.prevImageLabel sd_setImageWithURL: mainPlainThumbnailUrl];  //通过相应的URL获取对应的新闻图片
     return mainPlainCell;
 }
 
@@ -260,9 +260,9 @@
     }
     mainTopCell.topicLabel.text = dataModelMainTop.newsTitle;
     mainTopCell.hintLabel.text = dataModelMainTop.hint;
-    NSString *imageUrlStr = dataModelMainTop.thumbnailUrl;
-    NSURL *mainTopThumbnailUrl = [imageUrlStr stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];  //再将NSString类型的URL转化为NSURL类型
-    [mainTopCell.prevImageLabel sd_setImageWithURL: [NSURL URLWithString:mainTopThumbnailUrl]];  //通过相应的URL获取对应的新闻图片
+    NSString *imageUrlStr = dataModelMainTop.thumbnailUrl; //我知道这里警告了，这里应该有一个.firstObject，但加上之后会导致整个程序崩溃，咱也不知道是为什么，故此程序依靠这个bug运行，请勿改动。
+    NSURL *mainTopThumbnailUrl = [NSURL URLWithString:imageUrlStr];  //再将NSString类型的URL转化为NSURL类型
+    [mainTopCell.prevImageLabel sd_setImageWithURL:mainTopThumbnailUrl];  //通过相应的URL获取对应的新闻图片
     return mainTopCell;
 }
 
@@ -281,7 +281,6 @@
     MainPageNewsItemModel *newsModel = self.dataArrayForPlainStory[indexPath.row];
     newsPage.newsUrl = [NSURL URLWithString:newsModel.newsUrl];
     [self.navigationController pushViewController:newsPage animated:YES];
-    NSLog(@"Clicked!");
 }
 
 #pragma mark - BannerViewDelegate
