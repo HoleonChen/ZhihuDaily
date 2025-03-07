@@ -26,7 +26,7 @@
 - (UILabel *)topicLabel {  //标题懒加载
     if (_topicLabel == nil) {
         _topicLabel = [[UILabel alloc] init];
-        _topicLabel.frame = CGRectMake(20, 280, 350, 80);  //位置和大小
+        _topicLabel.frame = CGRectMake(20, 265, 350, 80);  //位置和大小
         _topicLabel.layer.masksToBounds = YES;  //超出边界限制
         _topicLabel.textColor = [UIColor whiteColor];  //字体颜色黑色
         _topicLabel.font = [UIFont systemFontOfSize:22 weight:bold];  //字号18磅

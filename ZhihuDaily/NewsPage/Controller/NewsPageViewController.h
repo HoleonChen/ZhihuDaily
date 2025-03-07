@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSURL *newsUrl;
 
-@property (nonatomic, assign) NSInteger newsId;
+@property (nonatomic, assign) NSNumber *newsId;
 
 @property (nonatomic, assign) NSString *newsTitle;
 

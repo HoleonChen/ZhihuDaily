@@ -22,10 +22,10 @@
 @property (nonatomic, strong) UILabel *likeNum;
 @property (nonatomic, strong) UIImageView *commentImage;
 @property (nonatomic, strong) UILabel *commentLabel;
-@property (nonatomic, strong) UIButton *shareButton;
+@property (nonatomic, strong) UIImageView *shareButton;
 
-@property (nonatomic, assign) NSInteger popularityNum;
-@property (nonatomic, assign) NSInteger commentNum;
+@property (nonatomic, assign) NSNumber *popularityNum;
+@property (nonatomic, assign) NSNumber *commentNum;
 
 
 @end
@@ -35,14 +35,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    [self getRequest];
     [self.view addSubview:self.newsView];
     [self.view addSubview:self.bottomToolBar];
-    [self getRequest];
     [self.bottomToolBar addSubview:self.backBtn];
     [self.bottomToolBar addSubview:self.starBtn];
     [self.bottomToolBar addSubview:self.likeBtn];
     [self.bottomToolBar addSubview:self.likeNum];
     [self.bottomToolBar addSubview:self.commentImage];
+    [self.bottomToolBar addSubview:self.commentLabel];
+    [self.bottomToolBar addSubview:self.shareButton];
     // Do any additional setup after loading the view.
 }
 
@@ -50,9 +52,13 @@
 
 - (void)getRequest{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSString *urlString = [NSString stringWithFormat:@"https://news-at.zhihu.com/api/3/story-extra/%ld",(long)self.newsId];
+    NSLog(@"%@",self.newsId);
+    NSString *urlString = [NSString stringWithFormat:@"https://news-at.zhihu.com/api/3/story-extra/%@",self.newsId];
+    NSLog(@"%@",urlString);
     [manager GET:urlString parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
-        
+        NSLog(@"%@",responseObject);
+        self.popularityNum = responseObject[@"popularity"];
+        self.commentNum = responseObject[@"comments"];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error){}];
 }
 
@@ -114,9 +120,9 @@
 
 - (UILabel *)likeNum{
     if(_likeNum == nil){
-        _likeNum = [[UILabel alloc] initWithFrame:CGRectMake(206, 17, 8, 8)];
+        _likeNum = [[UILabel alloc] initWithFrame:CGRectMake(206, 17, 16, 16)];
         _likeNum.backgroundColor = [UIColor clearColor];
-        _likeNum.text = [NSString stringWithFormat:@"%ld",self.popularityNum];
+        _likeNum.text = [NSString stringWithFormat:@"%d",[self.popularityNum intValue]];
         _likeNum.textAlignment = NSTextAlignmentLeft;
         _likeNum.textColor = [UIColor blackColor];
         _likeNum.font = [UIFont systemFontOfSize:8];
@@ -131,6 +137,27 @@
         _commentImage.layer.masksToBounds = YES;
     }
     return _commentImage;
+}
+
+- (UILabel *)commentLabel{
+    if(_commentLabel == nil){
+        _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(276, 17, 16, 16)];
+        _commentLabel.backgroundColor = [UIColor clearColor];
+        _commentLabel.text = [NSString stringWithFormat:@"%d",[self.commentNum intValue]];
+        _commentLabel.textAlignment = NSTextAlignmentLeft;
+        _commentLabel.textColor = [UIColor blackColor];
+        _commentLabel.font = [UIFont systemFontOfSize:8];
+    }
+    return _commentLabel;
+}
+
+- (UIImageView *)shareButton{
+    if(_shareButton == nil){
+        _shareButton = [[UIImageView alloc] initWithFrame:CGRectMake(310, 15, 35, 35)];
+        _shareButton.image = [UIImage imageNamed:@"ion_share-outline.png"];
+        _shareButton.layer.masksToBounds = YES;
+    }
+    return _shareButton;
 }
 
 #pragma mark - WKWebViewDelegate
@@ -171,12 +198,11 @@
     NSString *alertMessage = [[NSString alloc] init];
     if(self.likeBtn.selected){
         alertMessage = @"已点赞";
-        self.popularityNum += 1;
-        _likeNum.text = [NSString stringWithFormat:@"%ld",self.popularityNum];
+        int result = [self.popularityNum intValue] + 1;
+        _likeNum.text = [NSString stringWithFormat:@"%d",result];
     }else{
         alertMessage = @"取消点赞";
-        self.popularityNum -= 1;
-        _likeNum.text = [NSString stringWithFormat:@"%ld",self.popularityNum];
+        _likeNum.text = [NSString stringWithFormat:@"%@",self.popularityNum];
     }
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:alertMessage
                                    message:@""
