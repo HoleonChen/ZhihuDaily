@@ -23,9 +23,12 @@ Banner的Cell视图中有背景图片、标题和提示词三大元素，每个C
 
 主页的TableView视图采用了MVC开发模式
 TableView的Cell中有预览图、标题和提示词三大元素，每个Cell都是作为对应新闻页面的入口。
+
 > 值得注意的是，目前只实现了最新新闻的显示，历史新闻目前没来得及完成。
 
 Banner和TableView均放置在同一个ScrollView中。
+
+---
 
 ## 新闻页面
 
@@ -34,11 +37,18 @@ Banner和TableView均放置在同一个ScrollView中。
 新闻详情视图WKWebView的网络请求来自其自带功能，并且注入了JSON代码使其部分元素被隐藏。
 
 新闻页面底部视图使用了UIView，向里面添加了starBtn、likeBtn两个UIButton元素，在点击时会弹出提示窗口，提示“收藏成功/取消收藏”或“已点赞/取消点赞”，点赞按钮点赞数字会发生变化。
+
 > 原本想要实现收藏和点赞数据本地存储，并能够在菜单页面找到收藏内容，同时实现再次点击页面恢复原有收藏状态和点赞状态，由于时间问题将原案废弃。
+
 backBtn、commentImage、shareBtn均为UIImageView，其中backBtn点击事件为返回主页面，其余两个均无实际功能
+
 > 原本shareBtn的点击事件为将文章链接复制到剪切板中并弹出提示框“已复制分享链接”，由于时间问题未实现。
+
 likeNum和commentLabel均为UILabel，能够实现显示点赞数和评论数，likeNum会在点赞后自动+1.
+
 > 该方案存在Bug，就是刚进去页面时所有数字显示为0，在点赞后点赞数字恢复正常，目前尚不清楚Bug原因。
+
+---
 
 ## 菜单页面
 
