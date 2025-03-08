@@ -16,12 +16,6 @@
 #import "KJBannerViewFlowLayout.h"
 #import "KJBannerViewTimer.h"
 #import "KJPageControl.h"
-#import "KJAutoPurgingCache.h"
-#import "KJImageCache.h"
-#import "KJNetworkManager.h"
-#import "KJWebImageDownloader.h"
-#import "KJWebImageHeader.h"
-#import "UIView+KJWebImage.h"
 
 FOUNDATION_EXPORT double KJBannerViewVersionNumber;
 FOUNDATION_EXPORT const unsigned char KJBannerViewVersionString[];

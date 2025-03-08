@@ -8,7 +8,6 @@
 #import "NewsPageViewController.h"
 #import "MainPageViewController.h"
 #import "AFNetworking.h"
-#import "ExtraDataModel.h"
 
 @interface NewsPageViewController ()<WKUIDelegate, WKNavigationDelegate>
 

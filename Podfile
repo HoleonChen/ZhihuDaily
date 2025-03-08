@@ -8,6 +8,5 @@ target 'ZhihuDaily' do
   pod 'AFNetworking'
   pod 'SDWebImage'
   pod 'KJBannerView'
-  pod 'KJBannerView/Downloader'
 
 end
