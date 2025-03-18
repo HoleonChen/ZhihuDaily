@@ -13,15 +13,12 @@
 #import "MainPageBannerViewModel.h"
 #import "MenuPageViewController.h"
 #import "NewsPageViewController.h"
+#import "TopView.h"
 
 @interface MainPageViewController ()<UITableViewDataSource, UITableViewDelegate, KJBannerViewDelegate, KJBannerViewDataSource>
 
-@property (nonatomic, strong) UIView *topView;
 
-@property (nonatomic, strong) UILabel *day;
-@property (nonatomic, strong) UILabel *month;
-@property (nonatomic, strong) UIImageView *avatar;
-@property (nonatomic, strong) UILabel *topic;
+@property (nonatomic, strong) TopView *topView;
 
 @property (nonatomic, strong) NSMutableArray<MainPageNewsItemModel *> *dataArrayForPlainStory;  //数据数组，存储，针对普通新闻
 
@@ -47,10 +44,6 @@
     [self getRequest];
     //topView Init
     [self.view addSubview:self.topView];
-    [self.topView addSubview:self.month];
-    [self.topView addSubview:self.day];
-    [self.topView addSubview:self.topic];
-    [self.topView addSubview:self.avatar];
     //scrollView Init
     [self.view addSubview:self.mainScreenScroll];
     [self.mainScreenScroll addSubview:self.topNewsBannerView];
@@ -61,112 +54,14 @@
 
 #pragma mark - Getter //懒加载
 
-- (UIView *)topView{
+- (TopView *)topView{
     if(_topView == nil){
-        _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, UIScreen.mainScreen.bounds.size.width, 60)];
-        _topView.backgroundColor = [UIColor whiteColor];
+        _topView = [[TopView alloc] initWithFrame:CGRectMake(0, 50, UIScreen.mainScreen.bounds.size.width, 60)];
+        _topView. backgroundColor = [UIColor clearColor];
+        UITapGestureRecognizer *avatarTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(choseImage:)];
+        [_topView.avatarImageView addGestureRecognizer:avatarTap];
     }
     return _topView;
-}
-
-- (UILabel *)month{
-    if(_month == nil){
-        _month = [[UILabel alloc] initWithFrame:CGRectMake(16, 39, 32, 12)];
-        _month.backgroundColor = [UIColor whiteColor];
-        NSDate *currentDate = [NSDate date];
-        NSCalendar *calendar = [NSCalendar  currentCalendar];
-        unsigned int unitFlags = NSMonthCalendarUnit;
-        NSDateComponents *d = [calendar components:unitFlags fromDate:currentDate];
-        int monthNum = [d month];
-        NSString *monthStr;
-        switch (monthNum) {
-            case 1:
-                monthStr = @"一月";
-                break;
-            case 2:
-                monthStr = @"二月";
-                break;
-            case 3:
-                monthStr = @"三月";
-                break;
-            case 4:
-                monthStr = @"四月";
-                break;
-            case 5:
-                monthStr = @"五月";
-                break;
-            case 6:
-                monthStr = @"六月";
-                break;
-            case 7:
-                monthStr = @"七月";
-                break;
-            case 8:
-                monthStr = @"八月";
-                break;
-            case 9:
-                monthStr = @"九月";
-                break;
-            case 10:
-                monthStr = @"十月";
-                break;
-            case 11:
-                monthStr = @"十一月";
-                break;
-            case 12:
-                monthStr = @"十二月";
-                break;
-        }
-        _month.text = monthStr;
-        _month.font = [UIFont systemFontOfSize:12 weight:bold];
-        _month.textAlignment = NSTextAlignmentCenter;
-        _month.textColor = [UIColor blackColor];
-    }
-    return _month;
-}
-
-- (UILabel *)day{
-    if(_day == nil){
-        _day = [[UILabel alloc] initWithFrame:CGRectMake(17, 14, 30, 20)];
-        _day.backgroundColor = [UIColor whiteColor];
-        NSDate *currentDate = [NSDate date];
-        NSCalendar *calendar = [NSCalendar  currentCalendar];
-        unsigned int unitFlags = NSDayCalendarUnit;
-        NSDateComponents *d = [calendar components:unitFlags fromDate:currentDate];
-        NSInteger *dayNum = [d day];
-        NSString *dayStr = [[NSNumber numberWithInteger:dayNum] stringValue];
-        _day.text = dayStr;
-        _day.font = [UIFont systemFontOfSize:20];
-        _day.textAlignment = NSTextAlignmentCenter;
-        _day.textColor = [UIColor blackColor];
-    }
-    return _day;
-}
-
-- (UILabel *)topic{
-    if(_topic == nil){
-        _topic = [[UILabel alloc] initWithFrame:CGRectMake(80, 17, 100, 25)];
-        _topic.backgroundColor = [UIColor whiteColor];
-        _topic.text = @"知乎日报";
-        _topic.font = [UIFont systemFontOfSize:25];
-        _topic.textAlignment = NSTextAlignmentLeft;
-        _topic.textColor = [UIColor blackColor];
-    }
-    return _topic;
-}
-
-- (UIImageView *)avatar{
-    if(_avatar == nil){
-        _avatar = [[UIImageView alloc] initWithFrame:CGRectMake(340, 13, 34, 34)];
-        _avatar.backgroundColor = [UIColor whiteColor];
-        _avatar.image = [UIImage imageNamed:@"DefaultAvatar.jpeg"];
-        _avatar.layer.cornerRadius = 17;
-        _avatar.layer.masksToBounds = YES;
-        _avatar.userInteractionEnabled = YES;
-        UITapGestureRecognizer *avatarTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(choseImage:)];
-        [_avatar addGestureRecognizer:avatarTap];
-    }
-    return _avatar;
 }
 
 - (UIScrollView *)mainScreenScroll{

@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MainPageBannerViewModel : NSObject
 
-@property (nonatomic, assign) NSNumber *newsId;
+@property (nonatomic, strong) NSNumber *newsId;
 
 @property (nonatomic, strong) NSString *newsTitle;
 
