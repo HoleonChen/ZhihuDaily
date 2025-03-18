@@ -155,8 +155,7 @@
     }
     mainTopCell.topicLabel.text = dataModelMainTop.newsTitle;
     mainTopCell.hintLabel.text = dataModelMainTop.hint;
-    NSString *imageUrlStr = dataModelMainTop.thumbnailUrl; 
-    NSURL *mainTopThumbnailUrl = [NSURL URLWithString:imageUrlStr];  //再将NSString类型的URL转化为NSURL类型
+    NSURL *mainTopThumbnailUrl = [NSURL URLWithString:dataModelMainTop.thumbnailUrl];  //再将NSString类型的URL转化为NSURL类型
     [mainTopCell.prevImageLabel sd_setImageWithURL:mainTopThumbnailUrl];  //通过相应的URL获取对应的新闻图片
     return mainTopCell;
 }

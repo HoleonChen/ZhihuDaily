@@ -87,7 +87,7 @@
 - (UIImageView *)backBtn{
     if(_backBtn == nil){
         _backBtn = [[UIImageView alloc] initWithFrame:CGRectMake(30, 15, 35, 35)];
-        UIImage *backBtnImage = [UIImage imageNamed:@"famicons_chevron-back-outline.png"];
+        UIImage *backBtnImage = [UIImage imageNamed:@"Back"];
         _backBtn.image = backBtnImage;
         _backBtn.layer.masksToBounds = YES;
         _backBtn.userInteractionEnabled = YES;
@@ -100,8 +100,8 @@
 - (UIButton *)starBtn{
     if(_starBtn == nil){
         _starBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 15, 35, 35)];
-        [_starBtn setImage:[UIImage imageNamed:@"si_star-fill.png"] forState:UIControlStateSelected];
-        [_starBtn setImage:[UIImage imageNamed:@"si_star-duotone.png"] forState:UIControlStateNormal];
+        [_starBtn setImage:[UIImage imageNamed:@"Star_Clicked"] forState:UIControlStateSelected];
+        [_starBtn setImage:[UIImage imageNamed:@"Star_Unclicked"] forState:UIControlStateNormal];
         [_starBtn addTarget:self action:@selector(starClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _starBtn;
@@ -110,8 +110,8 @@
 - (UIButton *)likeBtn{
     if(_likeBtn == nil){
         _likeBtn = [[UIButton alloc] initWithFrame:CGRectMake(170, 15, 35, 35)];
-        [_likeBtn setImage:[UIImage imageNamed:@"bxs_like.png"] forState:UIControlStateSelected];
-        [_likeBtn setImage:[UIImage imageNamed:@"bx_like.png"] forState:UIControlStateNormal];
+        [_likeBtn setImage:[UIImage imageNamed:@"Like_Clicked"] forState:UIControlStateSelected];
+        [_likeBtn setImage:[UIImage imageNamed:@"Like_Unclicked"] forState:UIControlStateNormal];
         [_likeBtn addTarget:self action:@selector(likeClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _likeBtn;
@@ -132,7 +132,7 @@
 - (UIImageView *)commentImage{
     if(_commentImage == nil){
         _commentImage = [[UIImageView alloc] initWithFrame:CGRectMake(240, 15, 35, 35)];
-        _commentImage.image = [UIImage imageNamed:@"mdi_comment-outline.png"];
+        _commentImage.image = [UIImage imageNamed:@"Comment"];
         _commentImage.layer.masksToBounds = YES;
     }
     return _commentImage;
@@ -153,7 +153,7 @@
 - (UIImageView *)shareButton{
     if(_shareButton == nil){
         _shareButton = [[UIImageView alloc] initWithFrame:CGRectMake(310, 15, 35, 35)];
-        _shareButton.image = [UIImage imageNamed:@"ion_share-outline.png"];
+        _shareButton.image = [UIImage imageNamed:@"Share"];
         _shareButton.layer.masksToBounds = YES;
     }
     return _shareButton;

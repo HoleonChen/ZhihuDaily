@@ -28,7 +28,7 @@
 - (UIImageView *)backBtn{
     if(_backBtn == nil){
         _backBtn = [[UIImageView alloc] initWithFrame:CGRectMake(30, 15, 35, 35)];
-        UIImage *backBtnImage = [UIImage imageNamed:@"famicons_chevron-back-outline.png"];
+        UIImage *backBtnImage = [UIImage imageNamed:@"Back"];
         _backBtn.image = backBtnImage;
         _backBtn.layer.masksToBounds = YES;
         _backBtn.userInteractionEnabled = YES;
@@ -51,7 +51,7 @@
     if(_userAvatar == nil){
         _userAvatar = [[UIImageView alloc] initWithFrame:CGRectMake((UIScreen.mainScreen.bounds.size.width/2)-40, 100, 80, 80 )];
         _userAvatar.backgroundColor = [UIColor whiteColor];
-        _userAvatar.image = [UIImage imageNamed:@"DefaultAvatar.jpeg"];
+        _userAvatar.image = [UIImage imageNamed:@"Default_Avatar"];
         _userAvatar.contentMode = UIViewContentModeScaleAspectFit;
         _userAvatar.layer.cornerRadius = 40;
         _userAvatar.layer.masksToBounds = YES;

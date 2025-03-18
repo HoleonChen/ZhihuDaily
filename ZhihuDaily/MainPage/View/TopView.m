@@ -113,7 +113,7 @@
     if(_avatarImageView == nil){
         _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(340, 13, 34, 34)];
         _avatarImageView.backgroundColor = [UIColor whiteColor];
-        _avatarImageView.image = [UIImage imageNamed:@"DefaultAvatar.jpeg"];
+        _avatarImageView.image = [UIImage imageNamed:@"Default_Avatar"];
         _avatarImageView.layer.cornerRadius = 17;
         _avatarImageView.layer.masksToBounds = YES;
         _avatarImageView.userInteractionEnabled = YES;
